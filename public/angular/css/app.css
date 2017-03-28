@@ -1,0 +1,15 @@
+.user-edit{
+  position: absolute;top: 5px;right: 5px;
+}
+.ui.container{
+  width: 95%;
+}
+.add-relation{
+  margin-top: 5px!important;
+}
+.no-relation{
+  margin: 1em 0!important;
+}
+.graph span.label{
+  margin-bottom: 10px;
+}

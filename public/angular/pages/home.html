@@ -1,0 +1,126 @@
+<div class="ui container">
+  <div class="ui stackable grid">
+    <div class="four wide column"  ng-init="getUsers()">
+    <div class="ui top fluid attached segment action input">
+      <input type="text" placeholder="Name" ng-model="username">
+      <button class="ui teal right labeled icon button" ng-click="addUser(username)" ng-disabled = "!username">
+        <i class="add user icon"></i>
+        Add
+      </button>
+      </div>
+      <div class="attached ui fulid segment" ng-repeat="user in users">
+          <span>{{user.name}}</span>
+          <button class="ui user-edit button" ng-click="showRelations(user.id)">Edit</button>
+      </div>
+  </div>
+    <div class="eight wide column">
+      <div class="ui fluid card">
+      <div class="content">
+        <div class="header">{{relationship.user.name}}</div>
+        <div class="">
+          <div class="ui form">
+            <div class = "three fields">
+              <div class="field">
+              <label></label>
+              <select class="ui fluid search dropdown" ng-model="user2option" ng-options="user.id as user.name for user in users | filter:{id:'!'+relationship.user.id}" required>
+                <option value="">Select User</option>
+              </select>
+            </div>
+            <div class="field">
+              <label></label>
+              <select class="ui fluid search dropdown" ng-model="tagoption" ng-options="tag.id as tag.tag for tag in tags" required>
+                <option value="">Select Tag</option>
+              </select>
+            </div>
+            <div class="field">
+              <button class="ui teal fluid add-relation button" type="submit" ng-click="addRelation()" ng-disabled="!(!!tagoption && !!user2option)">Add Relation</button>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="description">
+          <table class="ui inverted teal table">
+            <thead>
+              <tr><th>Current</th>
+              <th>Tag</th>
+              <th>Related</th>
+            </tr></thead><tbody>
+              <tr ng-repeat = "relation in relationship.relations">
+                <td>{{relation.user1}}</td>
+                <td>{{relation.tag}}</td>
+                <td>{{relation.user2}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+      <div class="ui fluid card">
+      <div class="content">
+        <div class="header">Degree of Separation</div>
+        <div class="">
+          <div class="ui form">
+            <div class = "three fields">
+              <div class="field">
+              <label></label>
+              <select class="ui fluid search dropdown" ng-model="pathuser1" ng-options="user.id as user.name for user in users | filter:filter1" required>
+                <option value="">Select User1</option>
+              </select>
+            </div>
+            <div class="field">
+              <label></label>
+              <select class="ui fluid search dropdown" ng-model="pathuser2" ng-options="user.id as user.name for user in users | filter: filter2" required>
+                <option value="">Select User2</option>
+              </select>
+            </div>
+            <div class="field">
+              <button class="ui teal fluid add-relation check-relation button" type="submit" ng-click="showPath(pathuser1, pathuser2)" ng-disabled="!(!!pathuser1 && !!pathuser2) || recheck">Check</button>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="description">
+          <div class="summary">
+            <span class="ui basic large label">{{paths.summary.from.name}}</span>
+            <i class="Angle Double Right large icon blue"></i>
+            <span class="ui basic large label">{{paths.summary.to.name}}</span>
+          </div>
+
+          <div class="ui horizontal tiny blue statistic" ng-show="showdegree">
+            <div class="value">
+              {{paths.summary.seperation}}
+            </div>
+            <div class="label">
+              Degree of separation
+            </div>
+          </div>
+
+          <div class="ui horizontal tiny red statistic no-relation" ng-show="norelation">
+            <div class="value">
+              NO
+            </div>
+            <div class="label">
+              Relations Found
+            </div>
+          </div>
+        </div>
+        <span class="graph" ng-repeat="path in paths.path track by $index">
+          <span class="ui basic large label">{{path.name}}</span>
+          <i class="Angle Double Right large icon blue" ng-hide="$last"></i>
+        </span>
+      </div>
+      </div>
+    </div>
+    <div class="four wide column" ng-init="getTags()">
+      <div class="ui top fluid attached segment right action input">
+          <input type="text" placeholder="Enter tags" ng-model="tagname">
+          <button class="ui teal right labeled icon button" ng-click="addTag(tagname)" ng-disabled = "!tagname">
+            <i class="tags icon"></i>
+            Add
+          </button>
+        </div>
+        <div class="attached ui segment" ng-repeat="tag in tags">
+            <span>{{tag.tag}}</span>
+        </div>
+    </div>
+</div>
